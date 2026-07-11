@@ -20,6 +20,34 @@ def get_btc_price():
     return f"${price:,.2f} USD"
 
 
+def get_biggies_price():
+    url = (
+        "https://api.coingecko.com/api/v3/simple/price"
+        "?ids=bitcoin,ethereum,pax-gold,binancecoin"
+        "&vs_currencies=usd"
+    )
+
+    response = requests.get(url)
+    response.raise_for_status()
+
+    data = response.json()
+
+    btc = data["bitcoin"]["usd"]
+    eth = data["ethereum"]["usd"]
+    paxg = data["pax-gold"]["usd"]
+    bnb = data["binancecoin"]["usd"]
+
+    message = (
+        "🪙 Biggies Price\n\n"
+        f"₿ BTC: ${btc:,.2f}\n"
+        f"Ξ ETH: ${eth:,.2f}\n"
+        f"🟡 PAXG: ${paxg:,.2f}\n"
+        f"🔶 BNB: ${bnb:,.2f}"
+    )
+
+    return message
+
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "👋 Welcome!\n\n"
