@@ -7,47 +7,68 @@ import os
 TOKEN = os.getenv("BOT_TOKEN")
 
 
-def get_btc_price():
-    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
 
-    response = requests.get(url)
-    response.raise_for_status()
+def prices_per_usd():
+    coins = {
+        "BTC": "Bitcoin",
+        "ETH": "Ethereum",
+        "PAXG": "PAX Gold",
+        "BNB": "BNB"
+    }
 
-    data = response.json()
+    prices = {}
 
-    price = data["bitcoin"]["usd"]
+    for symbol in coins:
+        url = f"https://api.yadio.io/rate/{symbol}/USD"
 
-    return f"${price:,.2f} USD"
+        response = requests.get(url)
+        response.raise_for_status()
 
+        data = response.json()
 
-def get_biggies_price():
-    url = (
-        "https://api.coingecko.com/api/v3/simple/price"
-        "?ids=bitcoin,ethereum,pax-gold,binancecoin"
-        "&vs_currencies=usd"
-    )
-
-    response = requests.get(url)
-    response.raise_for_status()
-
-    data = response.json()
-
-    btc = data["bitcoin"]["usd"]
-    eth = data["ethereum"]["usd"]
-    paxg = data["pax-gold"]["usd"]
-    bnb = data["binancecoin"]["usd"]
+        prices[symbol] = data["rate"]
 
     message = (
         "🪙 Biggies Price\n\n"
-        f"₿ BTC: ${btc:,.2f}\n"
-        f"Ξ ETH: ${eth:,.2f}\n"
-        f"🟡 PAXG: ${paxg:,.2f}\n"
-        f"🔶 BNB: ${bnb:,.2f}"
+        f"₿ BTC: ${prices['BTC']:,.2f}\n"
+        f"Ξ ETH: ${prices['ETH']:,.2f}\n"
+        f"🟡 PAXG: ${prices['PAXG']:,.2f}\n"
+        f"🔶 BNB: ${prices['BNB']:,.2f}"
     )
 
     return message
 
 
+def prices_per_toman():
+    coins = {
+        "BTC": "Bitcoin",
+        "ETH": "Ethereum",
+        "PAXG": "PAX Gold",
+        "BNB": "BNB"
+    }
+
+    prices = {}
+
+    for symbol in coins:
+        url = f"https://api.yadio.io/rate/{symbol}/IRT"
+
+        response = requests.get(url)
+        response.raise_for_status()
+
+        data = response.json()
+
+        prices[symbol] = data["rate"]
+
+    message = (
+        "🪙 Biggies Price\n\n"
+        f"₿ BTC: ${prices['BTC']:,.2f}\n"
+        f"Ξ ETH: ${prices['ETH']:,.2f}\n"
+        f"🟡 PAXG: ${prices['PAXG']:,.2f}\n"
+        f"🔶 BNB: ${prices['BNB']:,.2f}"
+    )
+
+    return message
+    
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "👋 Welcome!\n\n"
