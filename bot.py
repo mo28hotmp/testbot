@@ -38,10 +38,11 @@ async def btc(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"🪙 Current Bitcoin Price:\n{price}"
         )
 
-    except Exception as e:
-        await update.message.reply_text(
-            f"❌ Error:\n{e}"
-        )
+   except Exception as e:
+    print(e)
+    await update.message.reply_text(
+        f"❌ Error:\n{e}"
+    )
 
 
 def main():
