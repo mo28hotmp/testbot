@@ -8,64 +8,34 @@ TOKEN = os.getenv("BOT_TOKEN")
 
 
 def get_prices_per_usd():
-    coins = {
-        "BTC": "btc",
-        "ETH": "eth",
-        "PAXG": "paxg",
-        "BNB": "bnb"
-    }
 
-    prices = {}
+    url = "https://api.yadio.io/exrates/USD"
 
-    for name, symbol in coins.items():
+    response = requests.get(url)
+    response.raise_for_status()
 
-        url = f"https://api.yadio.io/rate/{symbol}/usd"
-
-        response = requests.get(url)
-        response.raise_for_status()
-
-        data = response.json()
-
-        # Debug if Yadio changes response format
-        print(symbol, data)
-
-        prices[name] = data["rate"]
+    data = response.json()
 
     message = (
         "💰 Prices per USD\n\n"
-        f"₿ BTC: ${prices['BTC']:,.2f}\n"
-        f"Ξ ETH: ${prices['ETH']:,.2f}\n"
-        f"🟡 PAXG: ${prices['PAXG']:,.2f}\n"
-        f"🔶 BNB: ${prices['BNB']:,.2f}"
+        f"₿ BTC: ${data['BTC']:,.2f}\n"
+        f"Ξ ETH: ${data['ETH']:,.2f}\n"
+        f"🟡 PAXG: ${data['PAXG']:,.2f}\n"
+        f"🔶 BNB: ${data['BNB']:,.2f}"
     )
 
     return message
 
+
 def get_prices_per_toman():
-    coins = {
-        "USD": "Dollar",
-        "BTC": "Bitcoin",
-        "ETH": "Ethereum",
-        "PAXG": "PAX Gold",
-        "BNB": "BNB"
-    }
 
-    prices = {}
+    url = "https://api.yadio.io/exrates/irt"
 
-    for name, symbol in coins.items():
+    response = requests.get(url)
+    response.raise_for_status()
 
-        url = f"https://api.yadio.io/rate/{symbol}/irt"
-
-        response = requests.get(url)
-        response.raise_for_status()
-
-        data = response.json()
-
-        # Debug if Yadio changes response format
-        print(symbol, data)
-
-        prices[name] = data["rate"]
-
+    data = response.json()
+    
     message = (
         "💰 Prices per toman\n\n"
         f"$ USD: T{prices['USD']:,.2f}\n"
