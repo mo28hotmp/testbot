@@ -38,11 +38,11 @@ def get_prices_per_toman():
     
     message = (
         "💰 Prices per toman\n\n"
-        f"$ USD: T{prices['USD']:,.2f}\n"
-        f"₿ BTC: T{prices['BTC']:,.2f}\n"
-        f"Ξ ETH: T{prices['ETH']:,.2f}\n"
-        f"🟡 PAXG: T{prices['PAXG']:,.2f}\n"
-        f"🔶 BNB: T{prices['BNB']:,.2f}"
+        f"$ USD: T{data['USD']:,.2f}\n"
+        f"₿ BTC: T{data['BTC']:,.2f}\n"
+        f"Ξ ETH: T{data['ETH']:,.2f}\n"
+        f"🟡 PAXG: T{data['PAXG']:,.2f}\n"
+        f"🔶 BNB: T{data['BNB']:,.2f}"
     )
 
     return message
