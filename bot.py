@@ -85,7 +85,8 @@ def main():
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("btc", btc))
-
+    app.add_handler(CommandHandler("biggiesPrice", biggies_price))
+    
     print("Bot is running...")
 
     app.run_polling()
