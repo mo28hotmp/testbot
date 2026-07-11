@@ -3,43 +3,52 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 import os
 
+#gets this from the VPS
 TOKEN = os.getenv("BOT_TOKEN")
 
-def get_gold_price():
-    url = "https://data-asg.goldprice.org/dbXRates/USD"
 
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
+def get_btc_price():
+    url = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url)
+
+    # If something goes wrong, raise an error
+    response.raise_for_status()
+
     data = response.json()
 
-    # Current gold price in USD per troy ounce
-    price = data["items"][0]["xauPrice"]
+    price = float(data["price"])
 
-    return f"${price:,.2f} USD per ounce"
+    return f"${price:,.2f} USD"
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Hello!\nType /gold to get the current gold price."
+        "👋 Welcome!\n\n"
+        "Available commands:\n"
+        "/btc - Current Bitcoin price"
     )
 
 
-async def gold(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def btc(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        price = get_gold_price()
-        await update.message.reply_text(f"Current Gold Price:\n{price}")
+        price = get_btc_price()
+
+        await update.message.reply_text(
+            f"🪙 Current Bitcoin Price:\n{price}"
+        )
+
     except Exception as e:
-        await update.message.reply_text(f"Error:\n{e}")
+        await update.message.reply_text(
+            f"❌ Error:\n{e}"
+        )
 
 
 def main():
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("gold", gold))
+    app.add_handler(CommandHandler("btc", btc))
 
     print("Bot is running...")
 
