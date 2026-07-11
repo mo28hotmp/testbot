@@ -52,7 +52,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "👋 Welcome!\n\n"
         "Available commands:\n"
-        "/btc - Current Bitcoin price"
+        "/btc - Current Bitcoin price\n"
         "/biggiesprice - btc - eth - paxg - bnb"
     )
 
