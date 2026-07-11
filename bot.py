@@ -9,26 +9,30 @@ TOKEN = os.getenv("BOT_TOKEN")
 
 def get_prices_per_usd():
     coins = {
-        "BTC": "Bitcoin",
-        "ETH": "Ethereum",
-        "PAXG": "PAX Gold",
-        "BNB": "BNB"
+        "BTC": "btc",
+        "ETH": "eth",
+        "PAXG": "paxg",
+        "BNB": "bnb"
     }
 
     prices = {}
 
-    for symbol in coins:
-        url = f"https://api.yadio.io/rate/{symbol}/USD"
+    for name, symbol in coins.items():
+
+        url = f"https://api.yadio.io/rate/{symbol}/usd"
 
         response = requests.get(url)
         response.raise_for_status()
 
         data = response.json()
 
-        prices[symbol] = data["rate"]
+        # Debug if Yadio changes response format
+        print(symbol, data)
+
+        prices[name] = data["rate"]
 
     message = (
-        "🪙 Biggies Price\n\n"
+        "💰 Prices per USD\n\n"
         f"₿ BTC: ${prices['BTC']:,.2f}\n"
         f"Ξ ETH: ${prices['ETH']:,.2f}\n"
         f"🟡 PAXG: ${prices['PAXG']:,.2f}\n"
@@ -36,7 +40,6 @@ def get_prices_per_usd():
     )
 
     return message
-
 
 def get_prices_per_toman():
     coins = {
@@ -49,19 +52,23 @@ def get_prices_per_toman():
 
     prices = {}
 
-    for symbol in coins:
-        url = f"https://api.yadio.io/rate/{symbol}/IRT"
+    for name, symbol in coins.items():
+
+        url = f"https://api.yadio.io/rate/{symbol}/irt"
 
         response = requests.get(url)
         response.raise_for_status()
 
         data = response.json()
 
-        prices[symbol] = data["rate"]
+        # Debug if Yadio changes response format
+        print(symbol, data)
+
+        prices[name] = data["rate"]
 
     message = (
-        "🪙 Prices per Toman\n\n"
-        f"$ USD: T{prices['BTC']:,.2f}\n"
+        "💰 Prices per toman\n\n"
+        f"$ USD: T{prices['USD']:,.2f}\n"
         f"₿ BTC: T{prices['BTC']:,.2f}\n"
         f"Ξ ETH: T{prices['ETH']:,.2f}\n"
         f"🟡 PAXG: T{prices['PAXG']:,.2f}\n"
@@ -69,7 +76,8 @@ def get_prices_per_toman():
     )
 
     return message
-    
+
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "👋 Welcome!\n\n"
