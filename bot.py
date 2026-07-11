@@ -107,8 +107,8 @@ def main():
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("pricesPerUsd", btc))
-    app.add_handler(CommandHandler("PricesPerTmn", biggies_price))
+    app.add_handler(CommandHandler("prices_per_usd", btc))
+    app.add_handler(CommandHandler("prices_per_toman", biggies_price))
     
     print("Bot is running...")
 
