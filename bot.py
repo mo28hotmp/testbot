@@ -1,8 +1,9 @@
 import requests
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
+import os
 
-TOKEN = "7654484547:AAHK9fqWCHU_li9Junfv-11iQhnAwnS0M2g"
+TOKEN = os.getenv("BOT_TOKEN")
 
 def get_gold_price():
     url = "https://data-asg.goldprice.org/dbXRates/USD"
