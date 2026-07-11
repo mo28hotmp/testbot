@@ -8,16 +8,14 @@ TOKEN = os.getenv("BOT_TOKEN")
 
 
 def get_btc_price():
-    url = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
+    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
 
     response = requests.get(url)
-
-    # If something goes wrong, raise an error
     response.raise_for_status()
 
     data = response.json()
 
-    price = float(data["price"])
+    price = data["bitcoin"]["usd"]
 
     return f"${price:,.2f} USD"
 
