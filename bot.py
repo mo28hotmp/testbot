@@ -7,8 +7,7 @@ import os
 TOKEN = os.getenv("BOT_TOKEN")
 
 
-
-def prices_per_usd():
+def get_prices_per_usd():
     coins = {
         "BTC": "Bitcoin",
         "ETH": "Ethereum",
@@ -39,8 +38,9 @@ def prices_per_usd():
     return message
 
 
-def prices_per_toman():
+def get_prices_per_toman():
     coins = {
+        "USD": "Dollar",
         "BTC": "Bitcoin",
         "ETH": "Ethereum",
         "PAXG": "PAX Gold",
@@ -60,11 +60,12 @@ def prices_per_toman():
         prices[symbol] = data["rate"]
 
     message = (
-        "🪙 Biggies Price\n\n"
-        f"₿ BTC: ${prices['BTC']:,.2f}\n"
-        f"Ξ ETH: ${prices['ETH']:,.2f}\n"
-        f"🟡 PAXG: ${prices['PAXG']:,.2f}\n"
-        f"🔶 BNB: ${prices['BNB']:,.2f}"
+        "🪙 Prices per Toman\n\n"
+        f"$ USD: T{prices['BTC']:,.2f}\n"
+        f"₿ BTC: T{prices['BTC']:,.2f}\n"
+        f"Ξ ETH: T{prices['ETH']:,.2f}\n"
+        f"🟡 PAXG: T{prices['PAXG']:,.2f}\n"
+        f"🔶 BNB: T{prices['BNB']:,.2f}"
     )
 
     return message
@@ -73,14 +74,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "👋 Welcome!\n\n"
         "Available commands:\n"
-        "/btc - Current Bitcoin price\n"
-        "/biggiesprice - btc - eth - paxg - bnb"
+        "/prices_per_usd - Current Bitcoin price\n"
+        "/prices_per_toman - btc - eth - paxg - bnb"
     )
 
 
-async def btc(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def prices_per_usd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        price = get_btc_price()
+        price = get_prices_per_usd()
 
         await update.message.reply_text(
             f"Current Bitcoin Price:\n{price}"
@@ -90,9 +91,9 @@ async def btc(update: Update, context: ContextTypes.DEFAULT_TYPE):
      print(e)
      await update.message.reply_text(f"Error:\n{e}")
 
-async def biggies_price(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def prices_per_toman(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        prices = get_biggies_price()
+        prices = get_prices_per_toman()
 
         await update.message.reply_text(prices)
 
@@ -106,8 +107,8 @@ def main():
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("btc", btc))
-    app.add_handler(CommandHandler("biggiesPrice", biggies_price))
+    app.add_handler(CommandHandler("pricesPerUsd", btc))
+    app.add_handler(CommandHandler("PricesPerTmn", biggies_price))
     
     print("Bot is running...")
 
