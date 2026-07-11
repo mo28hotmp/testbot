@@ -40,9 +40,7 @@ async def btc(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
    except Exception as e:
     print(e)
-    await update.message.reply_text(
-        f"❌ Error:\n{e}"
-    )
+    await update.message.reply_text(f"❌ Error:\n{e}")
 
 
 def main():
