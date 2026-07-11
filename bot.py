@@ -68,6 +68,17 @@ async def btc(update: Update, context: ContextTypes.DEFAULT_TYPE):
      print(e)
      await update.message.reply_text(f"Error:\n{e}")
 
+async def biggies_price(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        prices = get_biggies_price()
+
+        await update.message.reply_text(prices)
+
+    except Exception as e:
+        await update.message.reply_text(
+            f"❌ Error:\n{e}"
+        )
+
 
 def main():
     app = Application.builder().token(TOKEN).build()
