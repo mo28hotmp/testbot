@@ -53,6 +53,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "👋 Welcome!\n\n"
         "Available commands:\n"
         "/btc - Current Bitcoin price"
+        "/biggiesprice - btc - eth - paxg - bnb"
     )
 
 
