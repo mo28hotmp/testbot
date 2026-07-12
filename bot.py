@@ -36,29 +36,6 @@ def get_prices_per_usd():
     return message
 
 
-def get_prices_per_toman():
-
-    url = "https://api.yadio.io/exrates/IRT"
-
-    response = requests.get(url)
-    response.raise_for_status()
-
-    data = response.json()
-
-    # Bitcoin price in irt
-    btc = data["BTC"]
-
-    # Gold (XAU)
-    # Yadio gives ounces per USD, so invert it
-    gold = 1 / data["irt"]["XAU"]
-
-    message = (
-        "💰 Prices per USD\n\n"
-        f"₿ BTC : ${btc:,.2f}\n"
-        f"🥇 Gold : ${gold:,.2f}/oz"
-    )
-
-    return message
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
