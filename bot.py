@@ -58,16 +58,6 @@ async def prices_per_usd(update: Update, context: ContextTypes.DEFAULT_TYPE):
      print(e)
      await update.message.reply_text(f"Error:\n{e}")
 
-async def prices_per_toman(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    try:
-        prices = get_prices_per_toman()
-
-        await update.message.reply_text(prices)
-
-    except Exception as e:
-        await update.message.reply_text(
-            f"❌ Error:\n{e}"
-        )
 
 
 def main():
@@ -75,7 +65,6 @@ def main():
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("prices_per_usd", prices_per_usd))
-    app.add_handler(CommandHandler("prices_per_toman", prices_per_toman))
     
     print("Bot is running...")
 
