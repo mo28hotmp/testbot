@@ -16,12 +16,21 @@ def get_prices_per_usd():
 
     data = response.json()
 
+    # Bitcoin price in USD
+    btc = data["BTC"]
+
+    # 1 USD = x EUR
+    eur = data["USD"]["EUR"]
+
+    # Gold (XAU)
+    # Yadio gives ounces per USD, so invert it
+    gold = 1 / data["USD"]["XAU"]
+
     message = (
         "💰 Prices per USD\n\n"
-        f"₿ BTC: ${data['BTC']:,.2f}\n"
-        f"Ξ ETH: ${data['ETH']:,.2f}\n"
-        f"🟡 PAXG: ${data['PAXG']:,.2f}\n"
-        f"🔶 BNB: ${data['BNB']:,.2f}"
+        f"₿ BTC : ${btc:,.2f}\n"
+        f"🇪🇺 EUR : {eur:.4f}\n"
+        f"🥇 Gold : ${gold:,.2f}/oz"
     )
 
     return message
@@ -29,24 +38,27 @@ def get_prices_per_usd():
 
 def get_prices_per_toman():
 
-    url = "https://api.yadio.io/exrates/irt"
+    url = "https://api.yadio.io/exrates/IRT"
 
     response = requests.get(url)
     response.raise_for_status()
 
     data = response.json()
-    
+
+    # Bitcoin price in irt
+    btc = data["BTC"]
+
+    # Gold (XAU)
+    # Yadio gives ounces per USD, so invert it
+    gold = 1 / data["irt"]["XAU"]
+
     message = (
-        "💰 Prices per toman\n\n"
-        f"$ USD: T{data['USD']:,.2f}\n"
-        f"₿ BTC: T{data['BTC']:,.2f}\n"
-        f"Ξ ETH: T{data['ETH']:,.2f}\n"
-        f"🟡 PAXG: T{data['PAXG']:,.2f}\n"
-        f"🔶 BNB: T{data['BNB']:,.2f}"
+        "💰 Prices per USD\n\n"
+        f"₿ BTC : ${btc:,.2f}\n"
+        f"🥇 Gold : ${gold:,.2f}/oz"
     )
 
     return message
-
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
